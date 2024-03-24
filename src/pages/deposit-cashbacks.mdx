@@ -1,0 +1,680 @@
+import { CodeGroup, Row, Col, Properties, Property } from "../components/mdx.jsx"
+
+# Deposit Cashback
+## Deposit Cashback model
+
+Deposit cashback model contains all the information about deposit cashback.
+
+### Properties
+
+<Row>
+    <Col>
+        <Properties>
+            <Property name="_id" type="objectId">
+                Unique identifier.
+            </Property>
+            <Property name="deposit_id" type="objectId">
+                Identifier from deposit placement.
+                - Is Required
+            </Property>
+            <Property name="depositCashback_id" type="objectId">
+                Identifier from deposit cashbacks.
+                - Is Required
+            </Property>
+            <Property name="formNumber" type="string">
+                Cashback form number.
+                - Auto Generated
+            </Property>
+            <Property name="receival" type="array">
+                Cashback receivals.
+            </Property>
+            <Property name="receival.$._id" type="objectId">
+                Unique identifier for cashback receival.
+            </Property>
+            <Property name="receival.$.date" type="timestamp">
+                Cashback receival date.
+                - Is Required
+            </Property>
+            <Property name="receival.$.received" type="number">
+                Cashback received amount.
+                - Is Required
+            </Property>
+            <Property name="receival.$.correctionAmount" type="number">
+                Cashback correction amount.
+            </Property>
+            <Property name="receival.$.correctionReceived" type="number">
+                Cashback correction received.
+            </Property>
+            <Property name="receival.$.remaining" type="number">
+                Remaining cashback.
+            </Property>
+            <Property name="receival.$.createdBy_id" type="objectId">
+                User identifier who create the deposit placement.
+            </Property>
+            <Property name="receival.$.createdAt" type="timestamp">
+                Timestamp of when the deposit was created.
+            </Property>
+            <Property name="note" type="string">
+                Cashback note.
+            </Property>
+            <Property name="createdBy_id" type="objectId">
+                User identifier who create the deposit placement.
+            </Property>
+            <Property name="createdAt" type="timestamp">
+                Timestamp of when the deposit was created.
+            </Property>
+            <Property name="updatedBy_id" type="objectId">
+                User identifier who update the deposit placement.
+            </Property>
+            <Property name="updatedAt" type="timestamp">
+                Timestamp of when the deposit was updated.
+            </Property>
+            <Property name="deletedBy_id" type="objectId">
+                User identifier who deleted the deposit placement.
+            </Property>
+            <Property name="deletedAt" type="timestamp">
+                Timestamp of when the deposit was deleted.
+            </Property>
+            <Property name="deletedReason" type="string">
+                Deposit delete reason.
+            </Property>
+        </Properties>
+    </Col>
+</Row>
+
+---
+
+## List all deposit cashback {{ tag: 'GET', label: '/v1/deposit-cashback' }}
+
+<Row>
+    <Col>
+
+        This endpoint allows you to retrieve a paginated list of all your deposit cashback.
+
+        # Request
+
+        ### Optional query
+
+        <Properties>
+            <Property name="page" type="integer">
+                The page number of deposit returned.
+                - Default `1`
+            </Property>
+            <Property name="pageSize" type="integer">
+                The page size number of deposit returned.
+                - Default `10`
+            </Property>
+            <Property name="search" type="object">
+                Filter data by text.
+            </Property>
+            <Property name="sort" type="object">
+                - <code>asc</code> sort ascending
+                - <code>desc</code> sort descending
+            </Property>
+        </Properties>
+    </Col>
+    <Col sticky>
+        <CodeGroup title="Request" tag="GET" label="/v1/deposit-cashback">
+            ```typescript {{ title: 'axios' }}
+            const response = axios.get('/v1/roles', {
+                params: {
+                page:1,
+                page_size: 10
+            }
+        })
+            ```
+        </CodeGroup>
+        <CodeGroup title="Response">
+            ```json {{ title: '200' }}
+            {
+                "data": [
+                    {
+                        "_id": "637b569149e0c02e1036c35a",
+                        "placementDate": "2024-03-24T00:00:00.000Z",
+                        "bilyetNumber": "BILYET001",
+                        "depositNumber": "DP/03/2024/001",
+                        "bank_id": "623fd4c6060a3208d98e3a4c",
+                            "account": {
+                            "number": "86401234",
+                            "name": "John",
+                        },
+                        "owner_id": "623fd5d8b5dfb53e27c0f3a2",
+                        "baseDate": 366,
+                        "tenor": 90,
+                        "dueDate": "2025-03-24T00:00:00.000Z",
+                        "isRollOver": true,
+                        "placementAmount": 150000000,
+                        "sourceBank_id": "623fd4c6060a3208d98e3a4c",
+                        "sourceAccount": {
+                            "number": "86401234",
+                            "name": "John",
+                        },
+                        "recipientBank_id": "623fd4c6060a3208d98e3a4c",
+                        "recipientAccount": {
+                            "number": "86701235",
+                            "name": "Doe",
+                        },
+                        "paymentMethod": "advance",
+                        "interestRate": 3.5,
+                        "grossInterest": 1290984,
+                        "taxRate": 20,
+                        "taxAmount": 258197,
+                        "netInterest": 1032787,
+                        "returns": [
+                            {
+                                "_id": "623fd7a774fc59459af68337",
+                                "baseDays": 30,
+                                "dueDate": "2024-04-24T00:00:00.000Z",
+                                "grossInterest": 430328,
+                                "taxAmount": 86066,
+                                "netInterest": 344262,
+                            }
+                        ],
+                        "isCashback": true,
+                        "cashbacks": [
+                            {
+                                "_id": "623fd7dd33a91a2f3d4b57fb",
+                                "rate": 5,
+                                "amount": 430328,
+                                "cashback": {
+                                    "_id": "623fd8117b8b43065f5d108e",
+                                    "deposit_id": "637b569149e0c02e1036c35a",
+                                    "depositCashback_id": "623fd7dd33a91a2f3d4b57fb",
+                                    "formNumber": "CB-001",
+                                    "receival": [
+                                        {
+                                            "_id": "623fd8454e6dd160935465a4",
+                                            "date": "2024-04-20T00:00:00.000Z",
+                                            "received": 500000,
+                                            "correctionAmount": 606557,
+                                            "correctionReceived": 0,
+                                            "remaining": 606557,
+                                            "createdBy_id": "637d83d15d2be122007524bf",
+                                            "createdAt": "2024-04-20T00:00:00.000Z"
+                                        },
+                                        {
+                                            "_id": "623fd878bbf0aaed83c4fd7e",
+                                            "date": "2024-05-20T00:00:00.000Z",
+                                            "received": 500000,
+                                            "correctionAmount": 606557,
+                                            "correctionReceived": 606557,
+                                            "remaining": 0,
+                                            "createdBy_id": "637d83d15d2be122007524bf",
+                                            "createdAt": "2024-05-20T00:00:00.000Z"
+                                        }
+                                    ],
+                                    "createdBy_id": "637d83d15d2be122007524bf",
+                                    "createdAt": "2024-04-20T00:00:00.000Z"
+                                }
+                            }
+                        ],
+                        "note": "this is note",
+                        "createdBy_id": "637d83d15d2be122007524bf",
+                        "createdAt": "2022-01-01T00:00:00.000Z"
+                    },
+                ],
+                    "pagination": {
+                    "page": 1,
+                    "pageSize": 1,
+                    "pageCount": 1,
+                    "totalDocument": 2
+                }
+            }
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---
+
+## Create deposit {{ tag: 'POST', label: '/v1/deposit-cashback' }}
+
+<Row>
+    <Col>
+
+        This endpoint allows you to add new deposit cashback.
+
+        # Request
+
+        ### Required attributes
+
+        <Properties>
+            <Property name="deposit_id" type="timestamp">
+                Deposit identifier.
+            </Property>
+            <Property name="depositCashback_id" type="string">
+                Deposit cashback identifier.
+            </Property>
+            <Property name="receival" type="array">
+                Cashback receivals.
+            </Property>
+            <Property name="receival.$.date" type="number">
+                Cashback receival date.
+            </Property>
+            <Property name="receival.$.received" type="boolean">
+                Cashback received amount.
+            </Property>
+            <Property name="cashbacks" type="array">
+                Cashback information for deposit.
+            </Property>
+            <Property name="cashbacks.$.rate" type="number">
+                Deposit cashback rate.
+            </Property>
+            <Property name="note" type="string">
+                Deposit note.
+            </Property>
+        </Properties>
+    </Col>
+    <Col sticky>
+        <CodeGroup title="Request" tag="POST" label="/v1/deposit">
+            ```typescript {{ title: 'axios' }}
+            const response = axios.post('/v1/deposit', {
+            "placementDate": "2024-03-24",
+            "bilyetNumber": "BILYET001",
+            "bank_id": "623fd4c6060a3208d98e3a4c",
+            "account": {
+            "number": "86401234",
+            "name": "John",
+        },
+            "owner_id": "623fd5d8b5dfb53e27c0f3a2",
+            "baseDate": 366,
+            "tenor": 90,
+            "isRollOver": true,
+            "placementAmount": 150000000,
+            "sourceBank_id": "623fd4c6060a3208d98e3a4c",
+            "sourceAccount": {
+            "number": "86401234",
+            "name": "John",
+        },
+            "recipientBank_id": "623fd4c6060a3208d98e3a4c",
+            "recipientAccount": {
+            "number": "86701235",
+            "name": "Doe",
+        },
+            "paymentMethod": "advance",
+            "interestRate": 3.5,
+            "taxRate": 20,
+            "returns": [
+        {
+            "baseDays": 30,
+        }
+            ],
+            "isCashback": true,
+            "cashbacks": [
+        {
+            "rate": 5,
+        }
+            ],
+            "note": "this is note",
+        })
+            ```
+        </CodeGroup>
+        <CodeGroup title="Response">
+            ```json {{ title: '200' }}
+            {
+                "_id": "637b569149e0c02e1036c35a",
+                "placementDate": "2024-03-24T00:00:00.000Z",
+                "bilyetNumber": "BILYET001",
+                "depositNumber": "DP/03/2024/001",
+                "bank_id": "623fd4c6060a3208d98e3a4c",
+                "account": {
+                "number": "86401234",
+                "name": "John",
+            },
+                "owner_id": "623fd5d8b5dfb53e27c0f3a2",
+                "baseDate": 366,
+                "tenor": 90,
+                "dueDate": "2025-03-24T00:00:00.000Z",
+                "isRollOver": true,
+                "placementAmount": 150000000,
+                "sourceBank_id": "623fd4c6060a3208d98e3a4c",
+                "sourceAccount": {
+                "number": "86401234",
+                "name": "John",
+            },
+                "recipientBank_id": "623fd4c6060a3208d98e3a4c",
+                "recipientAccount": {
+                "number": "86701235",
+                "name": "Doe",
+            },
+                "paymentMethod": "advance",
+                "interestRate": 3.5,
+                "grossInterest": 1290984,
+                "taxRate": 20,
+                "taxAmount": 258197,
+                "netInterest": 1032787,
+                "returns": [
+            {
+                "_id": "623fd7a774fc59459af68337",
+                "baseDays": 30,
+                "dueDate": "2024-04-24T00:00:00.000Z",
+                "grossInterest": 430328,
+                "taxAmount": 86066,
+                "netInterest": 344262,
+            }
+                ],
+                "isCashback": true,
+                "cashbacks": [
+            {
+                "_id": "623fd7dd33a91a2f3d4b57fb",
+                "rate": 5,
+                "amount": 430328,
+            }
+                ],
+                "note": "this is note",
+                "createdBy_id": "637d83d15d2be122007524bf",
+                "createdAt": "2022-01-01T00:00:00.000Z"
+            }
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---
+
+## Retrieve deposit {{ tag: 'GET', label: '/v1/deposit/:id' }}
+
+<Row>
+    <Col>
+
+        This endpoint allows you to retrieve a deposit placement by id.
+
+    </Col>
+    <Col sticky>
+        <CodeGroup title="Request" tag="GET" label="/v1/deposit/:id">
+            ```typescript {{ title: 'axios' }}
+            const response = axios.get('/v1/deposit/637b569149e0c02e1036c35a')
+            ```
+        </CodeGroup>
+        <CodeGroup title="Response">
+            ```json {{ title: '200' }}
+            {
+                "_id": "637b569149e0c02e1036c35a",
+                "placementDate": "2024-03-24T00:00:00.000Z",
+                "bilyetNumber": "BILYET001",
+                "depositNumber": "DP/03/2024/001",
+                "bank_id": "623fd4c6060a3208d98e3a4c",
+                "account": {
+                "number": "86401234",
+                "name": "John",
+            },
+                "owner_id": "623fd5d8b5dfb53e27c0f3a2",
+                "baseDate": 366,
+                "tenor": 90,
+                "dueDate": "2025-03-24T00:00:00.000Z",
+                "isRollOver": true,
+                "placementAmount": 150000000,
+                "sourceBank_id": "623fd4c6060a3208d98e3a4c",
+                "sourceAccount": {
+                "number": "86401234",
+                "name": "John",
+            },
+                "recipientBank_id": "623fd4c6060a3208d98e3a4c",
+                "recipientAccount": {
+                "number": "86701235",
+                "name": "Doe",
+            },
+                "paymentMethod": "advance",
+                "interestRate": 3.5,
+                "grossInterest": 1290984,
+                "taxRate": 20,
+                "taxAmount": 258197,
+                "netInterest": 1032787,
+                "returns": [
+            {
+                "_id": "623fd7a774fc59459af68337",
+                "baseDays": 30,
+                "dueDate": "2024-04-24T00:00:00.000Z",
+                "grossInterest": 430328,
+                "taxAmount": 86066,
+                "netInterest": 344262,
+            }
+                ],
+                "isCashback": true,
+                "cashbacks": [
+            {
+                "_id": "623fd7dd33a91a2f3d4b57fb",
+                "rate": 5,
+                "amount": 430328,
+            }
+                ],
+                "note": "this is note",
+                "createdBy_id": "637d83d15d2be122007524bf",
+                "createdAt": "2022-01-01T00:00:00.000Z"
+            }
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---
+
+## Update deposit {{ tag: 'PATCH', label: '/v1/deposit/:id' }}
+
+<Row>
+    <Col>
+
+        This endpoint allows you to perform an update on a deposit placement.
+
+        # Request
+
+        ### Optional attributes
+
+        <Properties>
+            <Property name="placementDate" type="timestamp">
+                Timestamp when deposit placement was made.
+            </Property>
+            <Property name="bilyetNumber" type="string">
+                Bilyet Number for deposit.
+            </Property>
+            <Property name="bank_id" type="objectId">
+                Bank identifier from master bank.
+            </Property>
+            <Property name="account" type="object">
+                Account from the bank.
+            </Property>
+            <Property name="account.number" type="object">
+                The account number from the bank account.
+            </Property>
+            <Property name="account.name" type="object">
+                The account name for the bank account.
+            </Property>
+            <Property name="owner_id" type="objectId">
+                Owner identifier from master owner.
+            </Property>
+            <Property name="baseDate" type="number">
+                Deposit base date (in days).
+            </Property>
+            <Property name="tenor" type="number">
+                Deposit tenor.
+            </Property>
+            <Property name="isRollOver" type="boolean">
+                Is the deposit interest roll over or not.
+            </Property>
+            <Property name="placementAmount" type="number">
+                Deposit placement amount.
+            </Property>
+            <Property name="sourceBank_id" type="objectId">
+                Source of fund bank identifier from master bank.
+            </Property>
+            <Property name="sourceAccount" type="object">
+                Source of fund account from the bank.
+            </Property>
+            <Property name="sourceAccount.number" type="object">
+                Source of fund account number from the bank account.
+            </Property>
+            <Property name="sourceAccount.name" type="object">
+                Source of fund account name for the bank account.
+            </Property>
+            <Property name="recipientBank_id" type="objectId">
+                Interest recipient bank identifier from master bank.
+            </Property>
+            <Property name="recipientAccount" type="object">
+                Interest recipient account from the bank.
+            </Property>
+            <Property name="recipientAccount.number" type="object">
+                The interest recipient account number from the bank account.
+            </Property>
+            <Property name="recipientAccount.name" type="object">
+                The interest recipient account name for the bank account.
+            </Property>
+            <Property name="paymentMethod" type="enum ['advance', 'in_arrear']">
+                Deposit payment method.
+            </Property>
+            <Property name="interestRate" type="number">
+                Deposit interest rate.
+            </Property>
+            <Property name="taxRate" type="number">
+                Deposit tax rate.
+            </Property>
+            <Property name="returns" type="array">
+                Return information for deposit.
+            </Property>
+            <Property name="returns.$.baseDays" type="number">
+                Deposit return base day.
+            </Property>
+            <Property name="isCashback" type="boolean">
+                Deposit cashback availability.
+            </Property>
+            <Property name="cashbacks" type="array">
+                Cashback information for deposit.
+            </Property>
+            <Property name="cashbacks.$.rate" type="number">
+                Deposit cashback rate.
+            </Property>
+            <Property name="note" type="string">
+                Deposit note.
+            </Property>
+        </Properties>
+    </Col>
+    <Col sticky>
+        <CodeGroup title="Request" tag="PATCH" label="/v1/deposit/:id">
+            ```typescript {{ title: 'axios' }}
+            const response = axios.patch('/v1/deposit/637b569149e0c02e1036c35a',
+            {
+                "placementDate": "2024-03-24",
+                "bilyetNumber": "BILYET001",
+                "bank_id": "623fd4c6060a3208d98e3a4c",
+                "account": {
+                "number": "86401234",
+                "name": "John",
+            },
+                "owner_id": "623fd5d8b5dfb53e27c0f3a2",
+                "baseDate": 366,
+                "tenor": 90,
+                "isRollOver": true,
+                "placementAmount": 150000000,
+                "sourceBank_id": "623fd4c6060a3208d98e3a4c",
+                "sourceAccount": {
+                "number": "86401234",
+                "name": "John",
+            },
+                "recipientBank_id": "623fd4c6060a3208d98e3a4c",
+                "recipientAccount": {
+                "number": "86701235",
+                "name": "Doe",
+            },
+                "paymentMethod": "advance",
+                "interestRate": 3.5,
+                "taxRate": 20,
+                "returns": [
+            {
+                "baseDays": 30,
+            }
+                ],
+                "isCashback": true,
+                "cashbacks": [
+            {
+                "rate": 5,
+            }
+                ],
+                "note": "this is note",
+            })
+            ```
+        </CodeGroup>
+        <CodeGroup title="Response">
+            ```json {{ title: '200' }}
+            {
+                "_id": "637b569149e0c02e1036c35a",
+                "placementDate": "2024-03-24T00:00:00.000Z",
+                "bilyetNumber": "BILYET001",
+                "depositNumber": "DP/03/2024/001",
+                "bank_id": "623fd4c6060a3208d98e3a4c",
+                "account": {
+                "number": "86401234",
+                "name": "John",
+            },
+                "owner_id": "623fd5d8b5dfb53e27c0f3a2",
+                "baseDate": 366,
+                "tenor": 90,
+                "dueDate": "2025-03-24T00:00:00.000Z",
+                "isRollOver": true,
+                "placementAmount": 150000000,
+                "sourceBank_id": "623fd4c6060a3208d98e3a4c",
+                "sourceAccount": {
+                "number": "86401234",
+                "name": "John",
+            },
+                "recipientBank_id": "623fd4c6060a3208d98e3a4c",
+                "recipientAccount": {
+                "number": "86701235",
+                "name": "Doe",
+            },
+                "paymentMethod": "advance",
+                "interestRate": 3.5,
+                "grossInterest": 1290984,
+                "taxRate": 20,
+                "taxAmount": 258197,
+                "netInterest": 1032787,
+                "returns": [
+            {
+                "_id": "623fd7a774fc59459af68337",
+                "baseDays": 30,
+                "dueDate": "2024-04-24T00:00:00.000Z",
+                "grossInterest": 430328,
+                "taxAmount": 86066,
+                "netInterest": 344262,
+            }
+                ],
+                "isCashback": true,
+                "cashbacks": [
+            {
+                "_id": "623fd7dd33a91a2f3d4b57fb",
+                "rate": 5,
+                "amount": 430328,
+            }
+                ],
+                "note": "this is note",
+                "createdBy_id": "637d83d15d2be122007524bf",
+                "createdAt": "2022-01-01T00:00:00.000Z",
+                "updatedBy_id": "637d83d15d2be122007524bf",
+                "updatedAt": "2022-01-01T00:00:00.000Z"
+            }
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---
+
+## Delete deposit {{ tag: 'DELETE', label: '/v1/deposit/:id' }}
+
+<Row>
+    <Col>
+
+        This endpoint allows you to retrieve a deposit placement by id.
+
+    </Col>
+    <Col sticky>
+        <CodeGroup title="Request" tag="DELETE" label="/v1/deposit/:id">
+            ```typescript {{ title: 'axios' }}
+            const response = axios.delete('/v1/deposito/637b569149e0c02e1036c35a')
+            ```
+        </CodeGroup>
+        <CodeGroup title="Response">
+            ```json {{ title: '204' }}
+            // empty response
+            ```
+        </CodeGroup>
+    </Col>
+</Row>

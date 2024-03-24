@@ -1,0 +1,628 @@
+import { CodeGroup, Row, Col, Properties, Property } from "../components/mdx.jsx"
+
+# Deposit Withdrawal
+## Deposit Withdrawal model
+
+Deposit withdrawal model contains all the information about deposit withdrawal.
+
+### Properties
+
+<Row>
+    <Col>
+        <Properties>
+            <Property name="_id" type="objectId">
+                Unique identifier.
+            </Property>
+            <Property name="deposit_id" type="objectId">
+                Identifier from deposit placement.
+                - Is Required
+            </Property>
+            <Property name="formNumber" type="string">
+                Cashback form number.
+                - Auto Generated
+            </Property>
+            <Property name="receivals" type="array">
+                Withdrawal receivals.
+            </Property>
+            <Property name="receivals.$._id" type="objectId">
+                Unique identifier for withdrawal receival.
+            </Property>
+            <Property name="receivals.$.date" type="timestamp">
+                Withdrawal receival date.
+                - Is Required
+            </Property>
+            <Property name="receivals.$.received" type="number">
+                Withdrawal received amount.
+                - Is Required
+            </Property>
+            <Property name="receivals.$.remaining" type="number">
+                Remaining withdrawal.
+            </Property>
+            <Property name="receivals.$.createdBy_id" type="objectId">
+                User identifier who create the deposit placement.
+            </Property>
+            <Property name="receivals.$.createdAt" type="timestamp">
+                Timestamp of when the deposit was created.
+            </Property>
+            <Property name="note" type="string">
+                Cashback note.
+            </Property>
+            <Property name="createdBy_id" type="objectId">
+                User identifier who create the deposit placement.
+            </Property>
+            <Property name="createdAt" type="timestamp">
+                Timestamp of when the deposit was created.
+            </Property>
+            <Property name="updatedBy_id" type="objectId">
+                User identifier who update the deposit placement.
+            </Property>
+            <Property name="updatedAt" type="timestamp">
+                Timestamp of when the deposit was updated.
+            </Property>
+            <Property name="deletedBy_id" type="objectId">
+                User identifier who deleted the deposit placement.
+            </Property>
+            <Property name="deletedAt" type="timestamp">
+                Timestamp of when the deposit was deleted.
+            </Property>
+            <Property name="deletedReason" type="string">
+                Deposit delete reason.
+            </Property>
+        </Properties>
+    </Col>
+</Row>
+
+---
+
+## List all deposit withdrawal {{ tag: 'GET', label: '/v1/deposit/withdrawals' }}
+
+<Row>
+    <Col>
+
+        This endpoint allows you to retrieve a paginated list of all your deposit withdrawals.
+
+        # Request
+
+        ### Optional query
+
+        <Properties>
+            <Property name="page" type="integer">
+                The page number of deposit returned.
+                - Default `1`
+            </Property>
+            <Property name="pageSize" type="integer">
+                The page size number of deposit returned.
+                - Default `10`
+            </Property>
+            <Property name="search" type="object">
+                Filter data by text.
+            </Property>
+            <Property name="sort" type="object">
+                - <code>asc</code> sort ascending
+                - <code>desc</code> sort descending
+            </Property>
+        </Properties>
+    </Col>
+    <Col sticky>
+        <CodeGroup title="Request" tag="GET" label="/v1/deposit/withdrawals">
+            ```typescript {{ title: 'axios' }}
+            const response = axios.get('/v1/deposit/withdrawals', {
+                params: {
+                page:1,
+                page_size: 10
+            }
+        })
+            ```
+        </CodeGroup>
+        <CodeGroup title="Response">
+            ```json {{ title: '200' }}
+            {
+                "data": [
+                    {
+                        "_id": "637b569149e0c02e1036c35a",
+                        "placementDate": "2024-03-24T00:00:00.000Z",
+                        "bilyetNumber": "BILYET001",
+                        "depositNumber": "DP/03/2024/001",
+                        "bank_id": "623fd4c6060a3208d98e3a4c",
+                        "account": {
+                            "number": "86401234",
+                            "name": "John",
+                        },
+                        "owner_id": "623fd5d8b5dfb53e27c0f3a2",
+                        "baseDate": 366,
+                        "tenor": 90,
+                        "dueDate": "2025-03-24T00:00:00.000Z",
+                        "isRollOver": true,
+                        "placementAmount": 150000000,
+                        "sourceBank_id": "623fd4c6060a3208d98e3a4c",
+                        "sourceAccount": {
+                            "number": "86401234",
+                            "name": "John",
+                        },
+                        "recipientBank_id": "623fd4c6060a3208d98e3a4c",
+                        "recipientAccount": {
+                            "number": "86701235",
+                            "name": "Doe",
+                        },
+                        "paymentMethod": "advance",
+                        "interestRate": 3.5,
+                        "grossInterest": 1290984,
+                        "taxRate": 20,
+                        "taxAmount": 258197,
+                        "netInterest": 1032787,
+                        "returns": [
+                            {
+                                "_id": "623fd7a774fc59459af68337",
+                                "baseDays": 30,
+                                "dueDate": "2024-04-24T00:00:00.000Z",
+                                "grossInterest": 430328,
+                                "taxAmount": 86066,
+                                "netInterest": 344262,
+                                "return": {
+                                    "_id": "623fd8117b8b43065f5d108e",
+                                    "deposit_id": "637b569149e0c02e1036c35a",
+                                    "formNumber": "RI-001",
+                                    "receivals": [
+                                        {
+                                            "_id": "623fd8454e6dd160935465a4",
+                                            "date": "2024-04-20T00:00:00.000Z",
+                                            "received": 344262,
+                                            "remaining": 0,
+                                            "createdBy_id": "637d83d15d2be122007524bf",
+                                            "createdAt": "2024-04-20T00:00:00.000Z"
+                                        },
+                                    ],
+                                    "createdBy_id": "637d83d15d2be122007524bf",
+                                    "createdAt": "2024-04-20T00:00:00.000Z"
+                                }
+                            }
+                        ],
+                        "isCashback": true,
+                        "cashbacks": [
+                            {
+                                "_id": "623fd7dd33a91a2f3d4b57fb",
+                                "rate": 5,
+                                "amount": 430328,
+                                "cashback": {
+                                    "_id": "623fd8117b8b43065f5d108e",
+                                    "deposit_id": "637b569149e0c02e1036c35a",
+                                    "depositCashback_id": "623fd7dd33a91a2f3d4b57fb",
+                                    "formNumber": "CB-001",
+                                    "receival": [
+                                        {
+                                            "_id": "623fd8454e6dd160935465a4",
+                                            "date": "2024-04-20T00:00:00.000Z",
+                                            "received": 500000,
+                                            "correctionAmount": 606557,
+                                            "correctionReceived": 0,
+                                            "remaining": 606557,
+                                            "createdBy_id": "637d83d15d2be122007524bf",
+                                            "createdAt": "2024-04-20T00:00:00.000Z"
+                                        },
+                                        {
+                                            "_id": "623fd878bbf0aaed83c4fd7e",
+                                            "date": "2024-05-20T00:00:00.000Z",
+                                            "received": 500000,
+                                            "correctionAmount": 606557,
+                                            "correctionReceived": 606557,
+                                            "remaining": 0,
+                                            "createdBy_id": "637d83d15d2be122007524bf",
+                                            "createdAt": "2024-05-20T00:00:00.000Z"
+                                        }
+                                    ],
+                                    "createdBy_id": "637d83d15d2be122007524bf",
+                                    "createdAt": "2024-04-20T00:00:00.000Z"
+                                }
+                            }
+                        ],
+                        "note": "this is note",
+                        "createdBy_id": "637d83d15d2be122007524bf",
+                        "createdAt": "2022-01-01T00:00:00.000Z"
+                    },
+                ],
+                    "pagination": {
+                    "page": 1,
+                    "pageSize": 1,
+                    "pageCount": 1,
+                    "totalDocument": 2
+                }
+            }
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---
+
+## Create deposit withdrawal {{ tag: 'POST', label: '/v1/deposit/withdrawals' }}
+
+<Row>
+    <Col>
+
+        This endpoint allows you to add new deposit withdrawal.
+
+        # Request
+
+        ### Required attributes
+
+        <Properties>
+            <Property name="deposit_id" type="timestamp">
+                Deposit identifier.
+            </Property>
+            <Property name="receivals" type="array">
+                Withdrawal receivals.
+            </Property>
+            <Property name="receivals.$.date" type="number">
+                Withdrawal receival date.
+            </Property>
+            <Property name="receival.$.received" type="number">
+                Withdrawal received amount.
+            </Property>
+            <Property name="note" type="string">
+                Withdrawal note.
+            </Property>
+        </Properties>
+    </Col>
+    <Col sticky>
+        <CodeGroup title="Request" tag="POST" label="/v1/deposit-interest">
+            ```typescript {{ title: 'axios' }}
+            const response = axios.post('/v1/deposit-interest', {
+            "deposit_id": "637b569149e0c02e1036c35a",
+            "receivals": [
+                {
+                    "date": "2024-04-20T00:00:00.000Z",
+                    "received": 150000000
+                }
+            ]
+            "note": "this is note",
+        })
+            ```
+        </CodeGroup>
+        <CodeGroup title="Response">
+            ```json {{ title: '200' }}
+                {
+                    "_id": "623fd8117b8b43065f5d108e",
+                    "deposit_id": "637b569149e0c02e1036c35a",
+                    "formNumber": "RI-001",
+                    "receivals": [
+                        {
+                            "_id": "623fd8454e6dd160935465a4",
+                            "date": "2024-04-20T00:00:00.000Z",
+                            "received": 150000000
+                            "remaining": 0,
+                            "createdBy_id": "637d83d15d2be122007524bf",
+                            "createdAt": "2024-04-20T00:00:00.000Z",
+                            "return": {
+                                "_id": "623fd7a774fc59459af68337",
+                                "baseDays": 30,
+                                "dueDate": "2024-04-24T00:00:00.000Z",
+                                "grossInterest": 430328,
+                                "taxAmount": 86066,
+                                "netInterest": 344262,
+                            }
+                        },
+                    ],
+                    "deposit": {
+                        "_id": "637b569149e0c02e1036c35a",
+                        "placementDate": "2024-03-24T00:00:00.000Z",
+                        "bilyetNumber": "BILYET001",
+                        "depositNumber": "DP/03/2024/001",
+                        "bank_id": "623fd4c6060a3208d98e3a4c",
+                        "account": {
+                            "number": "86401234",
+                            "name": "John",
+                        },
+                        "owner_id": "623fd5d8b5dfb53e27c0f3a2",
+                        "baseDate": 366,
+                        "tenor": 90,
+                        "dueDate": "2025-03-24T00:00:00.000Z",
+                        "isRollOver": true,
+                        "placementAmount": 150000000,
+                        "sourceBank_id": "623fd4c6060a3208d98e3a4c",
+                        "sourceAccount": {
+                            "number": "86401234",
+                            "name": "John",
+                        },
+                        "recipientBank_id": "623fd4c6060a3208d98e3a4c",
+                        "recipientAccount": {
+                            "number": "86701235",
+                            "name": "Doe",
+                        },
+                        "paymentMethod": "advance",
+                        "interestRate": 3.5,
+                        "grossInterest": 1290984,
+                        "taxRate": 20,
+                        "taxAmount": 258197,
+                        "netInterest": 1032787,
+                        "returns": [
+                            {
+                                "_id": "623fd7a774fc59459af68337",
+                                "baseDays": 30,
+                                "dueDate": "2024-04-24T00:00:00.000Z",
+                                "grossInterest": 430328,
+                                "taxAmount": 86066,
+                                "netInterest": 344262,
+                            }
+                        ],
+                        "isCashback": true,
+                        "cashbacks": [
+                            {
+                                "_id": "623fd7dd33a91a2f3d4b57fb",
+                                "rate": 5,
+                                "amount": 430328,
+                            }
+                        ],
+                        "note": "this is note",
+                        "createdBy_id": "637d83d15d2be122007524bf",
+                        "createdAt": "2022-01-01T00:00:00.000Z"
+                    },
+                    "createdBy_id": "637d83d15d2be122007524bf",
+                    "createdAt": "2024-04-20T00:00:00.000Z"
+                }
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---
+
+## Retrieve deposit withdrawal {{ tag: 'GET', label: '/v1/deposit/withdrawals/:id' }}
+
+<Row>
+    <Col>
+
+        This endpoint allows you to retrieve a deposit withdrawal by id.
+
+    </Col>
+    <Col sticky>
+        <CodeGroup title="Request" tag="GET" label="/v1/deposit/withdrawals/:id">
+            ```typescript {{ title: 'axios' }}
+            const response = axios.get('/v1/deposit/623fd8117b8b43065f5d108e')
+            ```
+        </CodeGroup>
+        <CodeGroup title="Response">
+            ```json {{ title: '200' }}
+            {
+                "_id": "623fd8117b8b43065f5d108e",
+                "deposit_id": "637b569149e0c02e1036c35a",
+                "formNumber": "RI-001",
+                "receivals": [
+                    {
+                        "_id": "623fd8454e6dd160935465a4",
+                        "date": "2024-04-20T00:00:00.000Z",
+                        "received": 150000000
+                        "remaining": 0,
+                        "createdBy_id": "637d83d15d2be122007524bf",
+                        "createdAt": "2024-04-20T00:00:00.000Z",
+                        "return": {
+                            "_id": "623fd7a774fc59459af68337",
+                            "baseDays": 30,
+                            "dueDate": "2024-04-24T00:00:00.000Z",
+                            "grossInterest": 430328,
+                            "taxAmount": 86066,
+                            "netInterest": 344262,
+                        }
+                    },
+                ],
+                "deposit": {
+                    "_id": "637b569149e0c02e1036c35a",
+                    "placementDate": "2024-03-24T00:00:00.000Z",
+                    "bilyetNumber": "BILYET001",
+                    "depositNumber": "DP/03/2024/001",
+                    "bank_id": "623fd4c6060a3208d98e3a4c",
+                    "account": {
+                        "number": "86401234",
+                        "name": "John",
+                    },
+                    "owner_id": "623fd5d8b5dfb53e27c0f3a2",
+                    "baseDate": 366,
+                    "tenor": 90,
+                    "dueDate": "2025-03-24T00:00:00.000Z",
+                    "isRollOver": true,
+                    "placementAmount": 150000000,
+                    "sourceBank_id": "623fd4c6060a3208d98e3a4c",
+                    "sourceAccount": {
+                        "number": "86401234",
+                        "name": "John",
+                    },
+                    "recipientBank_id": "623fd4c6060a3208d98e3a4c",
+                    "recipientAccount": {
+                        "number": "86701235",
+                        "name": "Doe",
+                    },
+                    "paymentMethod": "advance",
+                    "interestRate": 3.5,
+                    "grossInterest": 1290984,
+                    "taxRate": 20,
+                    "taxAmount": 258197,
+                    "netInterest": 1032787,
+                    "returns": [
+                        {
+                            "_id": "623fd7a774fc59459af68337",
+                            "baseDays": 30,
+                            "dueDate": "2024-04-24T00:00:00.000Z",
+                            "grossInterest": 430328,
+                            "taxAmount": 86066,
+                            "netInterest": 344262,
+                        }
+                    ],
+                    "isCashback": true,
+                    "cashbacks": [
+                        {
+                            "_id": "623fd7dd33a91a2f3d4b57fb",
+                            "rate": 5,
+                            "amount": 430328,
+                        }
+                    ],
+                    "note": "this is note",
+                    "createdBy_id": "637d83d15d2be122007524bf",
+                    "createdAt": "2022-01-01T00:00:00.000Z"
+                },
+                "createdBy_id": "637d83d15d2be122007524bf",
+                "createdAt": "2024-04-20T00:00:00.000Z"
+            }
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---
+
+## Update deposit withdrawal {{ tag: 'PATCH', label: '/v1/deposit/withdrawals/:id' }}
+
+<Row>
+    <Col>
+
+        This endpoint allows you to perform an update on a deposit interest.
+
+        # Request
+
+        ### Optional attributes
+
+        <Properties>
+            <Property name="deposit_id" type="timestamp">
+                Deposit identifier.
+            </Property>
+            <Property name="receivals" type="array">
+                Cashback receivals.
+            </Property>
+            <Property name="receivals.$._id" type="number">
+                Receival identifier.
+            </Property>
+            <Property name="receivals.$.date" type="number">
+                Withdrawal receival date.
+            </Property>
+            <Property name="receival.$.received" type="number">
+                Withdrawal received amount.
+            </Property>
+            <Property name="note" type="string">
+                Withdrawal note.
+            </Property>
+        </Properties>
+    </Col>
+    <Col sticky>
+        <CodeGroup title="Request" tag="PATCH" label="/v1/deposit/withdrawals/:id">
+            ```typescript {{ title: 'axios' }}
+            const response = axios.patch('/v1/deposit/withdrawals/623fd8117b8b43065f5d108e',
+            {
+                "deposit_id": "637b569149e0c02e1036c35a",
+                "receivals": [
+                    {
+                        "_id": "623fd8117b8b43065f5d108e",
+                        "date": "2024-04-20T00:00:00.000Z",
+                        "received": 150000000
+                    }
+                ]
+                "note": "this is note",
+            })
+            ```
+        </CodeGroup>
+        <CodeGroup title="Response">
+            ```json {{ title: '200' }}
+            {
+                "_id": "623fd8117b8b43065f5d108e",
+                "deposit_id": "637b569149e0c02e1036c35a",
+                "formNumber": "RI-001",
+                "receivals": [
+                    {
+                        "_id": "623fd8454e6dd160935465a4",
+                        "date": "2024-04-20T00:00:00.000Z",
+                        "received": 150000000
+                        "remaining": 0,
+                        "createdBy_id": "637d83d15d2be122007524bf",
+                        "createdAt": "2024-04-20T00:00:00.000Z",
+                        "return": {
+                            "_id": "623fd7a774fc59459af68337",
+                            "baseDays": 30,
+                            "dueDate": "2024-04-24T00:00:00.000Z",
+                            "grossInterest": 430328,
+                            "taxAmount": 86066,
+                            "netInterest": 344262,
+                        }
+                    },
+                ],
+                "deposit": {
+                    "_id": "637b569149e0c02e1036c35a",
+                    "placementDate": "2024-03-24T00:00:00.000Z",
+                    "bilyetNumber": "BILYET001",
+                    "depositNumber": "DP/03/2024/001",
+                    "bank_id": "623fd4c6060a3208d98e3a4c",
+                    "account": {
+                        "number": "86401234",
+                        "name": "John",
+                    },
+                    "owner_id": "623fd5d8b5dfb53e27c0f3a2",
+                    "baseDate": 366,
+                    "tenor": 90,
+                    "dueDate": "2025-03-24T00:00:00.000Z",
+                    "isRollOver": true,
+                    "placementAmount": 150000000,
+                    "sourceBank_id": "623fd4c6060a3208d98e3a4c",
+                    "sourceAccount": {
+                        "number": "86401234",
+                        "name": "John",
+                    },
+                    "recipientBank_id": "623fd4c6060a3208d98e3a4c",
+                    "recipientAccount": {
+                        "number": "86701235",
+                        "name": "Doe",
+                    },
+                    "paymentMethod": "advance",
+                    "interestRate": 3.5,
+                    "grossInterest": 1290984,
+                    "taxRate": 20,
+                    "taxAmount": 258197,
+                    "netInterest": 1032787,
+                    "returns": [
+                        {
+                            "_id": "623fd7a774fc59459af68337",
+                            "baseDays": 30,
+                            "dueDate": "2024-04-24T00:00:00.000Z",
+                            "grossInterest": 430328,
+                            "taxAmount": 86066,
+                            "netInterest": 344262,
+                        }
+                    ],
+                    "isCashback": true,
+                    "cashbacks": [
+                        {
+                            "_id": "623fd7dd33a91a2f3d4b57fb",
+                            "rate": 5,
+                            "amount": 430328,
+                        }
+                    ],
+                    "note": "this is note",
+                    "createdBy_id": "637d83d15d2be122007524bf",
+                    "createdAt": "2022-01-01T00:00:00.000Z"
+                },
+                "createdBy_id": "637d83d15d2be122007524bf",
+                "createdAt": "2024-04-20T00:00:00.000Z"
+            }
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---
+
+## Delete deposit withdrawal {{ tag: 'DELETE', label: '/v1/deposit/withdrawals/:id' }}
+
+<Row>
+    <Col>
+
+        This endpoint allows you to delete a deposit withdrawal by id.
+
+    </Col>
+    <Col sticky>
+        <CodeGroup title="Request" tag="DELETE" label="/v1/deposit/withdrawals/:id">
+            ```typescript {{ title: 'axios' }}
+            const response = axios.delete('/v1/deposit/withdrawals/623fd8117b8b43065f5d108e')
+            ```
+        </CodeGroup>
+        <CodeGroup title="Response">
+            ```json {{ title: '204' }}
+            // empty response
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
