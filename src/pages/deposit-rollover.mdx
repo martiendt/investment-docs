@@ -1,0 +1,848 @@
+import { CodeGroup, Row, Col, Properties, Property } from "../components/mdx.jsx"
+
+# Deposit Renewal
+## Deposit Renewal model
+
+Deposit renewal model contains all the information about deposit renewal.
+
+### Properties
+
+<Row>
+    <Col>
+        <Properties>
+            <Property name="_id" type="objectId">
+                Unique identifier.
+            </Property>
+            <Property name="deposit_id" type="objectId">
+                Identifier from deposit placement.
+                - Is Required
+            </Property>
+            <Property name="formNumber" type="string">
+                Renewal form number.
+                - Auto Generated
+            </Property>
+            <Property name="placementDate" type="timestamp">
+                Timestamp when deposit renewal was made.
+                - Is Required
+            </Property>
+            <Property name="baseDate" type="number">
+                Renewal base date (in days).
+                - Is Required
+            </Property>
+            <Property name="tenor" type="number">
+                Renewal tenor.
+                - Is Required
+            </Property>
+            <Property name="dueDate" type="timestamp">
+                Renewal due date.
+                - placementDate + tenor
+            </Property>
+            <Property name="isRollOver" type="boolean">
+                Is the renewal interest roll over or not.
+            </Property>
+            <Property name="placementAmount" type="number">
+                Renewal amount.
+                - Is Required
+            </Property>
+            <Property name="paymentMethod" type="enum">
+                Renewal payment method.
+                - enum ['advance', 'in_arrear']
+            </Property>
+            <Property name="interestRate" type="number">
+                Renewal interest rate.
+                - Percentage
+                - Is Required
+            </Property>
+            <Property name="grossInterest" type="number">
+                Renewal gross interest amount.
+                - placementAmount * interestRate
+            </Property>
+            <Property name="taxRate" type="number">
+                Renewal tax rate.
+                - Percentage
+                - Is Required
+            </Property>
+            <Property name="taxAmount" type="number">
+                Renewal tax amount.
+                - interestAmount * taxRate
+            </Property>
+            <Property name="netInterest" type="number">
+                Renewal net interest amount.
+                - grossInterest - taxAmount
+            </Property>
+            <Property name="returns" type="array">
+                Return information for renewal.
+            </Property>
+            <Property name="returns.$._id" type="objectId">
+                Unique identifier for deposit return.
+            </Property>
+            <Property name="returns.$.baseDays" type="number">
+                Renewal return base day.
+                - Is Required
+            </Property>
+            <Property name="returns.$.dueDate" type="timestamp">
+                Renewal return due date.
+            </Property>
+            <Property name="returns.$.grossInterest" type="number">
+                Renewal return gross interest amount.
+            </Property>
+            <Property name="returns.$.taxAmount" type="number">
+                Renewal return tax amount.
+            </Property>
+            <Property name="returns.$.netInterest" type="number">
+                Renewal return net interest amount.
+            </Property>
+            <Property name="isCashback" type="boolean">
+                Renewal cashback availability.
+            </Property>
+            <Property name="cashbacks" type="array">
+                Cashback information for renewal.
+            </Property>
+            <Property name="cashbacks.$._id" type="objectId">
+                Unique identifier for deposit renewal.
+            </Property>
+            <Property name="cashbacks.$.rate" type="number">
+                Renewal cashback rate.
+            </Property>
+            <Property name="cashbacks.$.amount" type="number">
+                Renewal cashback amount.
+            </Property>
+            <Property name="note" type="string">
+                Renewal note.
+            </Property>
+            <Property name="createdBy_id" type="objectId">
+                User identifier who create the deposit renewal.
+            </Property>
+            <Property name="createdAt" type="timestamp">
+                Timestamp of when the renewal was created.
+            </Property>
+            <Property name="updatedBy_id" type="objectId">
+                User identifier who update the deposit renewal.
+            </Property>
+            <Property name="updatedAt" type="timestamp">
+                Timestamp of when the renewal was updated.
+            </Property>
+            <Property name="deletedBy_id" type="objectId">
+                User identifier who deleted the deposit renewal.
+            </Property>
+            <Property name="deletedAt" type="timestamp">
+                Timestamp of when the renewal was deleted.
+            </Property>
+            <Property name="deletedReason" type="string">
+                Renewal delete reason.
+            </Property>
+            <Property name="status" type="enum">
+                Withdrawal status.
+                - enum ['draft', 'extended']
+            </Property>
+        </Properties>
+    </Col>
+</Row>
+
+---
+
+## List all deposit renewal {{ tag: 'GET', label: '/v1/deposit/renewal' }}
+
+<Row>
+    <Col>
+
+        This endpoint allows you to retrieve a paginated list of all your deposit renewal.
+
+        # Request
+
+        ### Optional query
+
+        <Properties>
+            <Property name="page" type="integer">
+                The page number of deposit returned.
+                - Default `1`
+            </Property>
+            <Property name="pageSize" type="integer">
+                The page size number of deposit returned.
+                - Default `10`
+            </Property>
+            <Property name="search" type="object">
+                Filter data by text.
+            </Property>
+            <Property name="sort" type="object">
+                - <code>asc</code> sort ascending
+                - <code>desc</code> sort descending
+            </Property>
+        </Properties>
+    </Col>
+    <Col sticky>
+        <CodeGroup title="Request" tag="GET" label="/v1/deposit/renewal">
+            ```typescript {{ title: 'axios' }}
+            const response = axios.get('/v1/deposit/renewal', {
+            params: {
+                page:1,
+                page_size: 10
+            }
+        })
+            ```
+        </CodeGroup>
+        <CodeGroup title="Response">
+            ```json {{ title: '200' }}
+            {
+                "data": [
+                    {
+                        "_id": "637b569149e0c02e1036c35a",
+                        "placementDate": "2024-03-24T00:00:00.000Z",
+                        "bilyetNumber": "BILYET001",
+                        "depositNumber": "DP/03/2024/001",
+                        "bank_id": "623fd4c6060a3208d98e3a4c",
+                        "account": {
+                            "number": "86401234",
+                            "name": "John",
+                        },
+                        "owner_id": "623fd5d8b5dfb53e27c0f3a2",
+                        "baseDate": 366,
+                        "tenor": 90,
+                        "dueDate": "2025-03-24T00:00:00.000Z",
+                        "isRollOver": true,
+                        "placementAmount": 150000000,
+                        "sourceBank_id": "623fd4c6060a3208d98e3a4c",
+                        "sourceAccount": {
+                            "number": "86401234",
+                            "name": "John",
+                        },
+                        "recipientBank_id": "623fd4c6060a3208d98e3a4c",
+                        "recipientAccount": {
+                            "number": "86701235",
+                            "name": "Doe",
+                        },
+                        "paymentMethod": "advance",
+                        "interestRate": 3.5,
+                        "grossInterest": 1290984,
+                        "taxRate": 20,
+                        "taxAmount": 258197,
+                        "netInterest": 1032787,
+                        "returns": [
+                            {
+                                "_id": "623fd7a774fc59459af68337",
+                                "baseDays": 30,
+                                "dueDate": "2024-04-24T00:00:00.000Z",
+                                "grossInterest": 430328,
+                                "taxAmount": 86066,
+                                "netInterest": 344262,
+                                "return": {
+                                    "_id": "623fd8117b8b43065f5d108e",
+                                    "deposit_id": "637b569149e0c02e1036c35a",
+                                    "formNumber": "RI-001",
+                                    "receivals": [
+                                        {
+                                            "_id": "623fd8454e6dd160935465a4",
+                                            "date": "2024-04-20T00:00:00.000Z",
+                                            "received": 344262,
+                                            "remaining": 0,
+                                            "createdBy_id": "637d83d15d2be122007524bf",
+                                            "createdAt": "2024-04-20T00:00:00.000Z"
+                                        },
+                                    ],
+                                    "createdBy_id": "637d83d15d2be122007524bf",
+                                    "createdAt": "2024-04-20T00:00:00.000Z"
+                                }
+                            }
+                        ],
+                        "isCashback": true,
+                        "cashbacks": [
+                            {
+                                "_id": "623fd7dd33a91a2f3d4b57fb",
+                                "rate": 5,
+                                "amount": 430328,
+                                "cashback": {
+                                    "_id": "623fd8117b8b43065f5d108e",
+                                    "deposit_id": "637b569149e0c02e1036c35a",
+                                    "depositCashback_id": "623fd7dd33a91a2f3d4b57fb",
+                                    "formNumber": "CB-001",
+                                    "receival": [
+                                        {
+                                            "_id": "623fd8454e6dd160935465a4",
+                                            "date": "2024-04-20T00:00:00.000Z",
+                                            "received": 500000,
+                                            "correctionAmount": 606557,
+                                            "correctionReceived": 0,
+                                            "remaining": 606557,
+                                            "createdBy_id": "637d83d15d2be122007524bf",
+                                            "createdAt": "2024-04-20T00:00:00.000Z"
+                                        },
+                                        {
+                                            "_id": "623fd878bbf0aaed83c4fd7e",
+                                            "date": "2024-05-20T00:00:00.000Z",
+                                            "received": 500000,
+                                            "correctionAmount": 606557,
+                                            "correctionReceived": 606557,
+                                            "remaining": 0,
+                                            "createdBy_id": "637d83d15d2be122007524bf",
+                                            "createdAt": "2024-05-20T00:00:00.000Z"
+                                        }
+                                    ],
+                                    "createdBy_id": "637d83d15d2be122007524bf",
+                                    "createdAt": "2024-04-20T00:00:00.000Z"
+                                }
+                            }
+                        ],
+                        "note": "this is note",
+                        "withdrawal": {
+                            "_id": "623fd8117b8b43065f5d108e",
+                            "deposit_id": "637b569149e0c02e1036c35a",
+                            "formNumber": "DWD-001",
+                            "receivals": [
+                                {
+                                    "_id": "623fd8454e6dd160935465a4",
+                                    "date": "2024-04-20T00:00:00.000Z",
+                                    "received": 150000000
+                                    "remaining": 0,
+                                    "createdBy_id": "637d83d15d2be122007524bf",
+                                    "createdAt": "2024-04-20T00:00:00.000Z",
+                                },
+                            ],
+                            "note": "this is note",
+                            "createdBy_id": "637d83d15d2be122007524bf",
+                            "createdAt": "2024-04-20T00:00:00.000Z"
+                        },
+                        "renewal": {
+                            "_id": "623fd8117b8b43065f5d108g",
+                            "deposit_id": "637b569149e0c02e1036c35a",
+                            "formNumber": "DR-001",
+                            "baseDate": 366,
+                            "tenor": 90,
+                            "dueDate": "2025-03-24T00:00:00.000Z",
+                            "isRollOver": true,
+                            "placementAmount": 152139344,
+                            "paymentMethod": "advance",
+                            "interestRate": 3.5,
+                            "grossInterest": 1290984,
+                            "taxRate": 20,
+                            "taxAmount": 258197,
+                            "netInterest": 1032787,
+                            "returns": [
+                                {
+                                    "_id": "623fd7a774fc59459af68337",
+                                    "baseDays": 30,
+                                    "dueDate": "2024-04-24T00:00:00.000Z",
+                                    "grossInterest": 430328,
+                                    "taxAmount": 86066,
+                                    "netInterest": 344262,
+                                }
+                            ],
+                            "isCashback": true,
+                            "cashbacks": [
+                                {
+                                    "_id": "623fd7dd33a91a2f3d4b57fb",
+                                    "rate": 5,
+                                    "amount": 430328,
+                                }
+                            ],
+                            "note": "this is note",
+                        }
+                        "createdBy_id": "637d83d15d2be122007524bf",
+                        "createdAt": "2022-01-01T00:00:00.000Z"
+                    },
+            }
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---
+
+## Create deposit renewal {{ tag: 'POST', label: '/v1/deposit' }}
+
+<Row>
+    <Col>
+
+        This endpoint allows you to add new deposit renewal.
+
+        # Request
+
+        ### Required attributes
+
+        <Property name="deposit_id" type="objectId">
+            Identifier from deposit placement.
+        </Property>
+        <Property name="placementDate" type="timestamp">
+            Timestamp when deposit renewal was made.
+        </Property>
+        <Property name="baseDate" type="number">
+            Renewal base date (in days).
+        </Property>
+        <Property name="tenor" type="number">
+            Renewal tenor.
+        </Property>
+        <Property name="dueDate" type="timestamp">
+            Renewal due date.
+        </Property>
+        <Property name="isRollOver" type="boolean">
+            Is the renewal interest roll over or not.
+        </Property>
+        <Property name="placementAmount" type="number">
+            Renewal amount.
+        </Property>
+        <Property name="paymentMethod" type="enum">
+            Renewal payment method.
+        </Property>
+        <Property name="interestRate" type="number">
+            Renewal interest rate.
+        </Property>
+        <Property name="taxRate" type="number">
+            Renewal tax rate.
+        </Property>
+        <Property name="returns" type="array">
+            Return information for renewal.
+        </Property>
+        <Property name="returns.$.baseDays" type="number">
+            Renewal return base day.
+        </Property>
+        <Property name="isCashback" type="boolean">
+            Renewal cashback availability.
+        </Property>
+        <Property name="cashbacks" type="array">
+            Cashback information for renewal.
+        </Property>
+        <Property name="cashbacks.$.rate" type="number">
+            Renewal cashback rate.
+        </Property>
+        <Property name="note" type="string">
+            Renewal note.
+        </Property>
+    </Col>
+    <Col sticky>
+        <CodeGroup title="Request" tag="POST" label="/v1/deposits/withdrawal">
+            ```typescript {{ title: 'axios' }}
+            const response = axios.post('/v1/deposits/withdrawal', {
+                "deposit_id": "637b569149e0c02e1036c35a",
+                "placementDate": "2024-03-24",
+                "baseDate": 366,
+                "tenor": 90,
+                "isRollOver": true,
+                "placementAmount": 150000000,
+                "paymentMethod": "advance",
+                "interestRate": 3.5,
+                "taxRate": 20,
+                "returns": [
+                    {
+                        "baseDays": 30,
+                    }
+                ],
+                "isCashback": true,
+                "cashbacks": [
+                    {
+                        "rate": 5,
+                    }
+                ],
+                "note": "this is note",
+            })
+            ```
+        </CodeGroup>
+        <CodeGroup title="Response">
+            ```json {{ title: '200' }}
+            {
+                "_id": "623fd8117b8b43065f5d108e",
+                "deposit_id": "637b569149e0c02e1036c35a",
+                "deposit": {
+                    "placementDate": "2024-03-24",
+                    "bilyetNumber": "BILYET001",
+                    "bank_id": "623fd4c6060a3208d98e3a4c",
+                    "account": {
+                        "number": "86401234",
+                        "name": "John",
+                    },
+                    "owner_id": "623fd5d8b5dfb53e27c0f3a2",
+                    "baseDate": 366,
+                    "tenor": 90,
+                    "isRollOver": true,
+                    "placementAmount": 150000000,
+                    "sourceBank_id": "623fd4c6060a3208d98e3a4c",
+                    "sourceAccount": {
+                        "number": "86401234",
+                        "name": "John",
+                    },
+                    "recipientBank_id": "623fd4c6060a3208d98e3a4c",
+                    "recipientAccount": {
+                        "number": "86701235",
+                        "name": "Doe",
+                    },
+                    "paymentMethod": "advance",
+                    "interestRate": 3.5,
+                    "taxRate": 20,
+                    "returns": [
+                        {
+                            "_id": "623fd7a774fc59459af68337",
+                            "baseDays": 30,
+                            "dueDate": "2024-04-24T00:00:00.000Z",
+                            "grossInterest": 430328,
+                            "taxAmount": 86066,
+                            "netInterest": 344262,
+                        }
+                    ],
+                    "isCashback": true,
+                    "cashbacks": [
+                        {
+                            "_id": "623fd7dd33a91a2f3d4b57fb",
+                            "rate": 5,
+                            "amount": 430328,
+                        }
+                    ],
+                    "note": "this is note",
+                }
+                "formNumber": "DR-001",
+                "placementDate": "2024-03-24T00:00:00.000Z",
+                "baseDate": 366,
+                "tenor": 90,
+                "dueDate": "2025-03-24T00:00:00.000Z",
+                "isRollOver": true,
+                "placementAmount": 150000000,
+                "paymentMethod": "advance",
+                "interestRate": 3.5,
+                "grossInterest": 1290984,
+                "taxRate": 20,
+                "taxAmount": 258197,
+                "netInterest": 1032787,
+                "returns": [
+                    {
+                        "_id": "623fd7a774fc59459af68337",
+                        "baseDays": 30,
+                        "dueDate": "2024-04-24T00:00:00.000Z",
+                        "grossInterest": 430328,
+                        "taxAmount": 86066,
+                        "netInterest": 344262,
+                    }
+                ],
+                "isCashback": true,
+                "cashbacks": [
+                    {
+                        "_id": "623fd7dd33a91a2f3d4b57fb",
+                        "rate": 5,
+                        "amount": 430328,
+                    }
+                ],
+                "note": "this is note",
+                "createdBy_id": "637d83d15d2be122007524bf",
+                "createdAt": "2022-01-01T00:00:00.000Z"
+            }
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---
+
+## Retrieve deposit renewal {{ tag: 'GET', label: '/v1/deposit/renewal/:id' }}
+
+<Row>
+    <Col>
+
+        This endpoint allows you to retrieve a deposit renewal by id.
+
+    </Col>
+    <Col sticky>
+        <CodeGroup title="Request" tag="GET" label="/v1/deposit/renewal/:id">
+            ```typescript {{ title: 'axios' }}
+            const response = axios.get('/v1/deposit/renewal/623fd8117b8b43065f5d108e')
+            ```
+        </CodeGroup>
+        <CodeGroup title="Response">
+            ```json {{ title: '200' }}
+            {
+                "_id": "623fd8117b8b43065f5d108e",
+                "deposit_id": "637b569149e0c02e1036c35a",
+                "deposit": {
+                    "placementDate": "2024-03-24",
+                    "bilyetNumber": "BILYET001",
+                    "bank_id": "623fd4c6060a3208d98e3a4c",
+                    "account": {
+                        "number": "86401234",
+                        "name": "John",
+                    },
+                    "owner_id": "623fd5d8b5dfb53e27c0f3a2",
+                    "baseDate": 366,
+                    "tenor": 90,
+                    "isRollOver": true,
+                    "placementAmount": 150000000,
+                    "sourceBank_id": "623fd4c6060a3208d98e3a4c",
+                    "sourceAccount": {
+                        "number": "86401234",
+                        "name": "John",
+                    },
+                    "recipientBank_id": "623fd4c6060a3208d98e3a4c",
+                    "recipientAccount": {
+                        "number": "86701235",
+                        "name": "Doe",
+                    },
+                    "paymentMethod": "advance",
+                    "interestRate": 3.5,
+                    "taxRate": 20,
+                    "returns": [
+                        {
+                            "_id": "623fd7a774fc59459af68337",
+                            "baseDays": 30,
+                            "dueDate": "2024-04-24T00:00:00.000Z",
+                            "grossInterest": 430328,
+                            "taxAmount": 86066,
+                            "netInterest": 344262,
+                        }
+                    ],
+                    "isCashback": true,
+                    "cashbacks": [
+                        {
+                            "_id": "623fd7dd33a91a2f3d4b57fb",
+                            "rate": 5,
+                            "amount": 430328,
+                        }
+                    ],
+                    "note": "this is note",
+                }
+                "formNumber": "DR-001",
+                "placementDate": "2024-03-24T00:00:00.000Z",
+                "baseDate": 366,
+                "tenor": 90,
+                "dueDate": "2025-03-24T00:00:00.000Z",
+                "isRollOver": true,
+                "placementAmount": 150000000,
+                "paymentMethod": "advance",
+                "interestRate": 3.5,
+                "grossInterest": 1290984,
+                "taxRate": 20,
+                "taxAmount": 258197,
+                "netInterest": 1032787,
+                "returns": [
+                    {
+                        "_id": "623fd7a774fc59459af68337",
+                        "baseDays": 30,
+                        "dueDate": "2024-04-24T00:00:00.000Z",
+                        "grossInterest": 430328,
+                        "taxAmount": 86066,
+                        "netInterest": 344262,
+                    }
+                ],
+                "isCashback": true,
+                "cashbacks": [
+                    {
+                        "_id": "623fd7dd33a91a2f3d4b57fb",
+                        "rate": 5,
+                        "amount": 430328,
+                    }
+                ],
+                "note": "this is note",
+                "createdBy_id": "637d83d15d2be122007524bf",
+                "createdAt": "2022-01-01T00:00:00.000Z"
+            }
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---
+
+## Update deposit renewal {{ tag: 'PATCH', label: '/v1/deposit/renewal/:id' }}
+
+<Row>
+    <Col>
+
+        This endpoint allows you to perform an update on a deposit renewal.
+
+        # Request
+
+        ### Optional attributes
+
+        <Property name="placementDate" type="timestamp">
+            Timestamp when deposit renewal was made.
+        </Property>
+        <Property name="baseDate" type="number">
+            Renewal base date (in days).
+        </Property>
+        <Property name="tenor" type="number">
+            Renewal tenor.
+        </Property>
+        <Property name="dueDate" type="timestamp">
+            Renewal due date.
+        </Property>
+        <Property name="isRollOver" type="boolean">
+            Is the renewal interest roll over or not.
+        </Property>
+        <Property name="placementAmount" type="number">
+            Renewal amount.
+        </Property>
+        <Property name="paymentMethod" type="enum">
+            Renewal payment method.
+        </Property>
+        <Property name="interestRate" type="number">
+            Renewal interest rate.
+        </Property>
+        <Property name="taxRate" type="number">
+            Renewal tax rate.
+        </Property>
+        <Property name="returns" type="array">
+            Return information for renewal.
+        </Property>
+        <Property name="returns.$.baseDays" type="number">
+            Renewal return base day.
+        </Property>
+        <Property name="isCashback" type="boolean">
+            Renewal cashback availability.
+        </Property>
+        <Property name="cashbacks" type="array">
+            Cashback information for renewal.
+        </Property>
+        <Property name="cashbacks.$.rate" type="number">
+            Renewal cashback rate.
+        </Property>
+        <Property name="note" type="string">
+            Renewal note.
+        </Property>
+    </Col>
+    <Col sticky>
+        <CodeGroup title="Request" tag="PATCH" label="/v1/deposit/renewal/:id">
+            ```typescript {{ title: 'axios' }}
+            const response = axios.patch('/v1/deposit/renewal/637b569149e0c02e1036c35a',
+            {
+                "placementDate": "2024-03-24",
+                "baseDate": 366,
+                "tenor": 90,
+                "isRollOver": true,
+                "placementAmount": 150000000,
+                "paymentMethod": "advance",
+                "interestRate": 3.5,
+                "taxRate": 20,
+                "returns": [
+                    {
+                        "baseDays": 30,
+                    }
+                ],
+                "isCashback": true,
+                "cashbacks": [
+                    {
+                        "rate": 5,
+                    }
+                ],
+                "note": "this is note"
+            })
+            ```
+        </CodeGroup>
+        <CodeGroup title="Response">
+            ```json {{ title: '200' }}
+            {
+                "_id": "623fd8117b8b43065f5d108e",
+                "deposit_id": "637b569149e0c02e1036c35a",
+                "deposit": {
+                    "placementDate": "2024-03-24",
+                    "bilyetNumber": "BILYET001",
+                    "bank_id": "623fd4c6060a3208d98e3a4c",
+                    "account": {
+                        "number": "86401234",
+                        "name": "John",
+                    },
+                    "owner_id": "623fd5d8b5dfb53e27c0f3a2",
+                    "baseDate": 366,
+                    "tenor": 90,
+                    "isRollOver": true,
+                    "placementAmount": 150000000,
+                    "sourceBank_id": "623fd4c6060a3208d98e3a4c",
+                    "sourceAccount": {
+                        "number": "86401234",
+                        "name": "John",
+                    },
+                    "recipientBank_id": "623fd4c6060a3208d98e3a4c",
+                    "recipientAccount": {
+                        "number": "86701235",
+                        "name": "Doe",
+                    },
+                    "paymentMethod": "advance",
+                    "interestRate": 3.5,
+                    "taxRate": 20,
+                    "returns": [
+                        {
+                            "_id": "623fd7a774fc59459af68337",
+                            "baseDays": 30,
+                            "dueDate": "2024-04-24T00:00:00.000Z",
+                            "grossInterest": 430328,
+                            "taxAmount": 86066,
+                            "netInterest": 344262,
+                        }
+                    ],
+                    "isCashback": true,
+                    "cashbacks": [
+                        {
+                            "_id": "623fd7dd33a91a2f3d4b57fb",
+                            "rate": 5,
+                            "amount": 430328,
+                        }
+                    ],
+                    "note": "this is note",
+                }
+                "formNumber": "DR-001",
+                "placementDate": "2024-03-24T00:00:00.000Z",
+                "baseDate": 366,
+                "tenor": 90,
+                "dueDate": "2025-03-24T00:00:00.000Z",
+                "isRollOver": true,
+                "placementAmount": 150000000,
+                "paymentMethod": "advance",
+                "interestRate": 3.5,
+                "grossInterest": 1290984,
+                "taxRate": 20,
+                "taxAmount": 258197,
+                "netInterest": 1032787,
+                "returns": [
+                    {
+                        "_id": "623fd7a774fc59459af68337",
+                        "baseDays": 30,
+                        "dueDate": "2024-04-24T00:00:00.000Z",
+                        "grossInterest": 430328,
+                        "taxAmount": 86066,
+                        "netInterest": 344262,
+                    }
+                ],
+                "isCashback": true,
+                "cashbacks": [
+                    {
+                        "_id": "623fd7dd33a91a2f3d4b57fb",
+                        "rate": 5,
+                        "amount": 430328,
+                    }
+                ],
+                "note": "this is note",
+                "createdBy_id": "637d83d15d2be122007524bf",
+                "createdAt": "2022-01-01T00:00:00.000Z",
+                "updatedBy_id": "637d83d15d2be122007524bf",
+                "updatedAt": "2022-01-01T00:00:00.000Z"
+            }
+            ```
+        </CodeGroup>
+    </Col>
+</Row>
+
+---
+
+## Delete deposit renewal {{ tag: 'DELETE', label: '/v1/deposit/renewal/:id' }}
+
+<Row>
+    <Col>
+
+        This endpoint allows you to retrieve a deposit renewal by id.
+
+        # Request
+
+        ### Required attributes
+
+        <Properties>
+            <Property name="deletedReason" type="string">
+                Delete reason.
+            </Property>
+        </Properties>
+
+    </Col>
+    <Col sticky>
+        <CodeGroup title="Request" tag="DELETE" label="/v1/deposit/renewal/:id">
+            ```typescript {{ title: 'axios' }}
+            const response = axios.delete('/v1/deposit/renewal/637b569149e0c02e1036c35a?deletedReason=this is reason')
+            ```
+        </CodeGroup>
+        <CodeGroup title="Response">
+            ```json {{ title: '204' }}
+            // empty response
+            ```
+        </CodeGroup>
+    </Col>
+</Row>

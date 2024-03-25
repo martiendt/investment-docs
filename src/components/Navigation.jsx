@@ -199,9 +199,10 @@ export const navigation = [
     title: 'Resources',
     links: [
       { title: 'Deposit', href: '/deposits' },
+      { title: 'Deposit Cashback', href: '/deposit-cashbacks' },
       { title: 'Deposit Interest', href: '/deposit-interest' },
-      { title: 'Roles', href: '/roles' },
-      { title: 'Users', href: '/users' },
+      { title: 'Deposit Withdrawal', href: '/deposit-withdrawal' },
+      { title: 'Deposit Renewal', href: '/deposit-rollover' },
     ],
   },
 ]

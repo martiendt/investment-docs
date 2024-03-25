@@ -78,7 +78,7 @@ Deposit realised interest model contains all the information about deposit reali
 
 ---
 
-## List all deposit realised interest {{ tag: 'GET', label: '/v1/deposit-interest' }}
+## List all deposit realised interest {{ tag: 'GET', label: '/v1/deposit/interest' }}
 
 <Row>
     <Col>
@@ -108,9 +108,9 @@ Deposit realised interest model contains all the information about deposit reali
         </Properties>
     </Col>
     <Col sticky>
-        <CodeGroup title="Request" tag="GET" label="/v1/deposit-interest">
+        <CodeGroup title="Request" tag="GET" label="/v1/deposit/interest">
             ```typescript {{ title: 'axios' }}
-            const response = axios.get('/v1/deposit-interest', {
+            const response = axios.get('/v1/deposit/interest', {
                 params: {
                 page:1,
                 page_size: 10
@@ -208,7 +208,7 @@ Deposit realised interest model contains all the information about deposit reali
 
 ---
 
-## Create deposit interest {{ tag: 'POST', label: '/v1/deposit-interest' }}
+## Create deposit interest {{ tag: 'POST', label: '/v1/deposit/interest' }}
 
 <Row>
     <Col>
@@ -241,11 +241,10 @@ Deposit realised interest model contains all the information about deposit reali
         </Properties>
     </Col>
     <Col sticky>
-        <CodeGroup title="Request" tag="POST" label="/v1/deposit-interest">
+        <CodeGroup title="Request" tag="POST" label="/v1/deposit/interest">
             ```typescript {{ title: 'axios' }}
-            const response = axios.post('/v1/deposit-interest', {
+            const response = axios.post('/v1/deposit/interest', {
                 "deposit_id": "637b569149e0c02e1036c35a",
-                "depositReturn_id": "623fd7a774fc59459af68337",
                 "receivals": [
                     {
                         "return_id": "623fd8117b8b43065f5d108e",
@@ -266,6 +265,7 @@ Deposit realised interest model contains all the information about deposit reali
                 "receivals": [
                     {
                         "_id": "623fd8454e6dd160935465a4",
+                        "return_id": "623fd7a774fc59459af68337",
                         "date": "2024-04-20T00:00:00.000Z",
                         "received": 344262,
                         "remaining": 0,
@@ -338,7 +338,7 @@ Deposit realised interest model contains all the information about deposit reali
 
 ---
 
-## Retrieve deposit interest {{ tag: 'GET', label: '/v1/deposit-interest/:id' }}
+## Retrieve deposit interest {{ tag: 'GET', label: '/v1/deposit/interest/:id' }}
 
 <Row>
     <Col>
@@ -347,9 +347,9 @@ Deposit realised interest model contains all the information about deposit reali
 
     </Col>
     <Col sticky>
-        <CodeGroup title="Request" tag="GET" label="/v1/deposit-interest/:id">
+        <CodeGroup title="Request" tag="GET" label="/v1/deposit/interest/:id">
             ```typescript {{ title: 'axios' }}
-            const response = axios.get('/v1/deposit/623fd8117b8b43065f5d108e')
+            const response = axios.get('/v1/deposit/interest/623fd8117b8b43065f5d108e')
             ```
         </CodeGroup>
         <CodeGroup title="Response">
@@ -361,6 +361,7 @@ Deposit realised interest model contains all the information about deposit reali
                 "receivals": [
                     {
                         "_id": "623fd8454e6dd160935465a4",
+                        "return_id": "623fd7a774fc59459af68337",
                         "date": "2024-04-20T00:00:00.000Z",
                         "received": 344262,
                         "remaining": 0,
@@ -433,7 +434,7 @@ Deposit realised interest model contains all the information about deposit reali
 
 ---
 
-## Update deposit interest {{ tag: 'PATCH', label: '/v1/deposit-interest/:id' }}
+## Update deposit interest {{ tag: 'PATCH', label: '/v1/deposit/interest/:id' }}
 
 <Row>
     <Col>
@@ -466,12 +467,11 @@ Deposit realised interest model contains all the information about deposit reali
         </Properties>
     </Col>
     <Col sticky>
-        <CodeGroup title="Request" tag="PATCH" label="/v1/deposit-interest/:id">
+        <CodeGroup title="Request" tag="PATCH" label="/v1/deposit/interest/:id">
             ```typescript {{ title: 'axios' }}
-            const response = axios.patch('/v1/deposit/623fd8117b8b43065f5d108e',
+            const response = axios.patch('/v1/deposit/interest/623fd8117b8b43065f5d108e',
             {
                 "deposit_id": "637b569149e0c02e1036c35a",
-                "depositReturn_id": "623fd7a774fc59459af68337",
                 "receivals": [
                     {
                         "return_id": "623fd8117b8b43065f5d108e",
@@ -492,6 +492,7 @@ Deposit realised interest model contains all the information about deposit reali
                 "receivals": [
                     {
                         "_id": "623fd8454e6dd160935465a4",
+                        "return_id": "623fd7a774fc59459af68337",
                         "date": "2024-04-20T00:00:00.000Z",
                         "received": 344262,
                         "remaining": 0,
@@ -564,18 +565,28 @@ Deposit realised interest model contains all the information about deposit reali
 
 ---
 
-## Delete deposit interest {{ tag: 'DELETE', label: '/v1/deposit-interest/:id' }}
+## Delete deposit interest {{ tag: 'DELETE', label: '/v1/deposit/interest/:id' }}
 
 <Row>
     <Col>
 
         This endpoint allows you to retrieve a deposit interest by id.
 
+        # Request
+
+        ### Required attributes
+
+        <Properties>
+            <Property name="deletedReason" type="string">
+                Delete reason.
+            </Property>
+        </Properties>
+
     </Col>
     <Col sticky>
-        <CodeGroup title="Request" tag="DELETE" label="/v1/deposit-interest/:id">
+        <CodeGroup title="Request" tag="DELETE" label="/v1/deposit/interest/:id">
             ```typescript {{ title: 'axios' }}
-            const response = axios.delete('/v1/deposit-interest/623fd8117b8b43065f5d108e')
+            const response = axios.delete('/v1/deposit/interest/623fd8117b8b43065f5d108e?deletedReason=this is reason')
             ```
         </CodeGroup>
         <CodeGroup title="Response">

@@ -68,6 +68,10 @@ Deposit withdrawal model contains all the information about deposit withdrawal.
             <Property name="deletedReason" type="string">
                 Deposit delete reason.
             </Property>
+            <Property name="status" type="enum">
+                Withdrawal status.
+                - enum ['pending', 'withdrawn']
+            </Property>
         </Properties>
     </Col>
 </Row>
@@ -216,6 +220,24 @@ Deposit withdrawal model contains all the information about deposit withdrawal.
                             }
                         ],
                         "note": "this is note",
+                        "withdrawal": {
+                            "_id": "623fd8117b8b43065f5d108e",
+                            "deposit_id": "637b569149e0c02e1036c35a",
+                            "formNumber": "RI-001",
+                            "receivals": [
+                                {
+                                    "_id": "623fd8454e6dd160935465a4",
+                                    "date": "2024-04-20T00:00:00.000Z",
+                                    "received": 150000000
+                                    "remaining": 0,
+                                    "createdBy_id": "637d83d15d2be122007524bf",
+                                    "createdAt": "2024-04-20T00:00:00.000Z",
+                                },
+                            ],
+                            "note": "this is note",
+                            "createdBy_id": "637d83d15d2be122007524bf",
+                            "createdAt": "2024-04-20T00:00:00.000Z"
+                        }
                         "createdBy_id": "637d83d15d2be122007524bf",
                         "createdAt": "2022-01-01T00:00:00.000Z"
                     },
@@ -302,6 +324,7 @@ Deposit withdrawal model contains all the information about deposit withdrawal.
                             }
                         },
                     ],
+                    "note": "this is note",
                     "deposit": {
                         "_id": "637b569149e0c02e1036c35a",
                         "placementDate": "2024-03-24T00:00:00.000Z",
@@ -404,6 +427,7 @@ Deposit withdrawal model contains all the information about deposit withdrawal.
                         }
                     },
                 ],
+                "note": "this is note",
                 "deposit": {
                     "_id": "637b569149e0c02e1036c35a",
                     "placementDate": "2024-03-24T00:00:00.000Z",
@@ -541,6 +565,7 @@ Deposit withdrawal model contains all the information about deposit withdrawal.
                         }
                     },
                 ],
+                "note": "this is note",
                 "deposit": {
                     "_id": "637b569149e0c02e1036c35a",
                     "placementDate": "2024-03-24T00:00:00.000Z",
@@ -612,11 +637,21 @@ Deposit withdrawal model contains all the information about deposit withdrawal.
 
         This endpoint allows you to delete a deposit withdrawal by id.
 
+        # Request
+
+        ### Required attributes
+
+        <Properties>
+            <Property name="deletedReason" type="string">
+                Delete reason.
+            </Property>
+        </Properties>
+
     </Col>
     <Col sticky>
         <CodeGroup title="Request" tag="DELETE" label="/v1/deposit/withdrawals/:id">
             ```typescript {{ title: 'axios' }}
-            const response = axios.delete('/v1/deposit/withdrawals/623fd8117b8b43065f5d108e')
+            const response = axios.delete('/v1/deposit/withdrawals/623fd8117b8b43065f5d108e?deletedReason=this is reason')
             ```
         </CodeGroup>
         <CodeGroup title="Response">

@@ -189,7 +189,7 @@ Deposit model contains all the information about deposit placements.
 
 ---
 
-## List all deposit {{ tag: 'GET', label: '/v1/deposit' }}
+## List all deposit {{ tag: 'GET', label: '/v1/deposits' }}
 
 <Row>
     <Col>
@@ -219,9 +219,9 @@ Deposit model contains all the information about deposit placements.
         </Properties>
     </Col>
     <Col sticky>
-        <CodeGroup title="Request" tag="GET" label="/v1/deposit">
+        <CodeGroup title="Request" tag="GET" label="/v1/deposits">
             ```typescript {{ title: 'axios' }}
-            const response = axios.get('/v1/deposit', {
+            const response = axios.get('/v1/deposits', {
                 params: {
                     page:1,
                     page_size: 10
@@ -302,7 +302,7 @@ Deposit model contains all the information about deposit placements.
 
 ---
 
-## Create deposit {{ tag: 'POST', label: '/v1/deposit' }}
+## Create deposit {{ tag: 'POST', label: '/v1/deposits' }}
 
 <Row>
     <Col>
@@ -401,9 +401,9 @@ Deposit model contains all the information about deposit placements.
         </Properties>
     </Col>
     <Col sticky>
-        <CodeGroup title="Request" tag="POST" label="/v1/deposit">
+        <CodeGroup title="Request" tag="POST" label="/v1/deposits">
             ```typescript {{ title: 'axios' }}
-            const response = axios.post('/v1/deposit', {
+            const response = axios.post('/v1/deposits', {
                 "placementDate": "2024-03-24",
                 "bilyetNumber": "BILYET001",
                 "bank_id": "623fd4c6060a3208d98e3a4c",
@@ -507,7 +507,7 @@ Deposit model contains all the information about deposit placements.
 
 ---
 
-## Retrieve deposit {{ tag: 'GET', label: '/v1/deposit/:id' }}
+## Retrieve deposit {{ tag: 'GET', label: '/v1/deposits/:id' }}
 
 <Row>
     <Col>
@@ -516,9 +516,9 @@ Deposit model contains all the information about deposit placements.
 
     </Col>
     <Col sticky>
-        <CodeGroup title="Request" tag="GET" label="/v1/deposit/:id">
+        <CodeGroup title="Request" tag="GET" label="/v1/deposits/:id">
             ```typescript {{ title: 'axios' }}
-            const response = axios.get('/v1/deposit/637b569149e0c02e1036c35a')
+            const response = axios.get('/v1/deposits/637b569149e0c02e1036c35a')
             ```
         </CodeGroup>
         <CodeGroup title="Response">
@@ -584,7 +584,7 @@ Deposit model contains all the information about deposit placements.
 
 ---
 
-## Update deposit {{ tag: 'PATCH', label: '/v1/deposit/:id' }}
+## Update deposit {{ tag: 'PATCH', label: '/v1/deposits/:id' }}
 
 <Row>
     <Col>
@@ -683,9 +683,9 @@ Deposit model contains all the information about deposit placements.
         </Properties>
     </Col>
     <Col sticky>
-        <CodeGroup title="Request" tag="PATCH" label="/v1/deposit/:id">
+        <CodeGroup title="Request" tag="PATCH" label="/v1/deposits/:id">
             ```typescript {{ title: 'axios' }}
-            const response = axios.patch('/v1/deposit/637b569149e0c02e1036c35a',
+            const response = axios.patch('/v1/deposits/637b569149e0c02e1036c35a',
             {
                 "placementDate": "2024-03-24",
                 "bilyetNumber": "BILYET001",
@@ -792,18 +792,28 @@ Deposit model contains all the information about deposit placements.
 
 ---
 
-## Delete deposit {{ tag: 'DELETE', label: '/v1/deposit/:id' }}
+## Delete deposit {{ tag: 'DELETE', label: '/v1/deposits/:id' }}
 
 <Row>
     <Col>
 
         This endpoint allows you to retrieve a deposit placement by id.
 
+        # Request
+
+        ### Required attributes
+
+        <Properties>
+            <Property name="deletedReason" type="string">
+                Delete reason.
+            </Property>
+        </Properties>
+
     </Col>
     <Col sticky>
-        <CodeGroup title="Request" tag="DELETE" label="/v1/deposit/:id">
+        <CodeGroup title="Request" tag="DELETE" label="/v1/deposits/:id">
             ```typescript {{ title: 'axios' }}
-            const response = axios.delete('/v1/deposito/637b569149e0c02e1036c35a')
+            const response = axios.delete('/v1/deposits/637b569149e0c02e1036c35a?deletedReason=this is reason')
             ```
         </CodeGroup>
         <CodeGroup title="Response">
