@@ -198,7 +198,8 @@ export const navigation = [
   {
     title: 'Resources',
     links: [
-      { title: 'Deposit', href: '/deposit' }
+      { title: 'Deposit', href: '/deposit' },
+      { title: 'Deposit Report', href: '/deposit-report' },
     ],
   },
 ]

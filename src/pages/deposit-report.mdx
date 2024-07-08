@@ -1,0 +1,290 @@
+import { CodeGroup, Row, Col, Properties, Property } from "../components/mdx.jsx"
+
+# Deposit Report
+
+## Placement information {{ tag: 'GET', label: '/v1/deposits/placements' }}
+
+<Row>
+  <Col>
+    This endpoint allows you to retrieve a paginated list of all your deposit.
+
+    # Request
+
+    ### Optional query
+
+    <Properties>
+      <Property name="page" type="integer">
+        The page number of deposit returned.
+        - Default `1`
+      </Property>
+      <Property name="page_size" type="integer">
+        The page size number of deposit returned.
+        - Default `10`
+      </Property>
+      <Property name="placement_date_from" type="string">
+        Filter data by placement date.
+      </Property>
+      <Property name="placement_date_to" type="string">
+        Filter data by placement date.
+      </Property>
+      <Property name="placement_date_from" type="string">
+        Filter data by due date.
+      </Property>
+      <Property name="placement_date_to" type="string">
+        Filter data by due date.
+      </Property>
+      <Property name="placement_type" type="string">
+        Filter data by placement type.
+      </Property>
+      <Property name="source_of_fund" type="string">
+        Filter data by source of fund.
+      </Property>
+      <Property name="owner_id" type="string">
+        Filter data by owner.
+      </Property>
+      <Property name="sort_by" type="string">
+        Sort data by column.
+      </Property>
+      <Property name="sort" type="string">
+        Sort ascending or descending
+      </Property>
+    </Properties>
+  </Col>
+
+  <Col sticky>
+    <CodeGroup title="Request" tag="GET" label="/v1/deposits">
+      ```typescript {{ title: 'axios' }}
+      const response = axios.get('/v1/deposits/placements', {
+        "params": {
+          "page": 1,
+          "page_size": 10
+        }
+      })
+      ```
+    </CodeGroup>
+    <CodeGroup title="Response">
+      ```json {{ title: '200' }}
+        {
+          "data": [
+            {
+              "_id": "637b569149e0c02e1036c35a",
+              "date": "2024-03-24T00:00:00.000Z",
+              "bilyetNumber": "BILYET001",
+              "number": "DP/03/2024/001",
+              "bank_id": "623fd4c6060a3208d98e3a4c",
+              "account": {
+                "number": "86401234",
+                "name": "John"
+              },
+              "owner_id": "623fd5d8b5dfb53e27c0f3a2",
+              "baseDate": 366,
+              "tenor": 90,
+              "dueDate": "2025-03-24T00:00:00.000Z",
+              "isRollOver": true,
+              "amount": 150000000,
+              "remaining": 150000000,
+              "sourceBank_id": "623fd4c6060a3208d98e3a4c",
+              "sourceAccount": {
+                "number": "86401234",
+                "name": "John"
+              },
+              "recipientBank_id": "623fd4c6060a3208d98e3a4c",
+              "recipientAccount": {
+                "number": "86701235",
+                "name": "Doe"
+              },
+              "paymentMethod": "advance",
+              "interestRate": 3.5,
+              "grossInterest": 1290984,
+              "taxRate": 20,
+              "taxAmount": 258197,
+              "netInterest": 1032787,
+              "returns": [
+                {
+                  "baseDays": 30,
+                  "dueDate": "2024-04-24T00:00:00.000Z",
+                  "gross": 430328,
+                  "taxAmount": 86066,
+                  "net": 344262
+                }
+              ],
+              "isCashback": true,
+              "cashbacks": [
+                {
+                  "rate": 5,
+                  "amount": 430328
+                }
+              ],
+              "note": "this is note",
+              "createdBy_id": "637d83d15d2be122007524bf",
+              "createdAt": "2022-01-01T00:00:00.000Z"
+            }
+          ],
+          "pagination": {
+            "page": 1,
+            "pageSize": 1,
+            "pageCount": 1,
+            "totalDocument": 2
+          }
+        }
+      ```
+    </CodeGroup>
+  </Col>
+</Row>
+
+---
+
+## Realized interest {{ tag: 'GET', label: '/v1/deposits/realized-interest' }}
+
+<Row>
+  <Col>
+    This endpoint allows you to retrieve a paginated list of all your deposit.
+
+    # Request
+
+    ### Optional query
+
+    <Properties>
+      <Property name="page" type="integer">
+        The page number of deposit returned.
+        - Default `1`
+      </Property>
+      <Property name="page_size" type="integer">
+        The page size number of deposit returned.
+        - Default `10`
+      </Property>
+      <Property name="placement_date_from" type="string">
+        Filter data by placement date.
+      </Property>
+      <Property name="placement_date_to" type="string">
+        Filter data by placement date.
+      </Property>
+      <Property name="placement_date_from" type="string">
+        Filter data by due date.
+      </Property>
+      <Property name="placement_date_to" type="string">
+        Filter data by due date.
+      </Property>
+      <Property name="placement_type" type="string">
+        Filter data by placement type.
+      </Property>
+      <Property name="source_of_fund" type="string">
+        Filter data by source of fund.
+      </Property>
+      <Property name="owner_id" type="string">
+        Filter data by owner.
+      </Property>
+    </Properties>
+  </Col>
+
+  <Col sticky>
+    <CodeGroup title="Request" tag="GET" label="/v1/deposits">
+      ```typescript {{ title: 'axios' }}
+      const response = axios.get('/v1/deposits', {
+        "params": {
+          "page": 1,
+          "page_size": 10
+        }
+      })
+      ```
+    </CodeGroup>
+    <CodeGroup title="Response">
+      ```json {{ title: '200' }}
+        {
+          "data": [
+            {
+              "_id": "637b569149e0c02e1036c35a",
+              "dateReceived": "2024-03-24T00:00:00.000Z",
+              "bilyetNumber": "BILYET001",
+              "number": "DP/03/2024/001",
+              "bank_id": "623fd4c6060a3208d98e3a4c",
+              "account": {
+                "number": "86401234",
+                "name": "DBS"
+              },
+              "sourceBank_id": "623fd4c6060a3208d98e3a4c",
+              "sourceAccount": {
+                "number": "86401234",
+                "name": "DBS"
+              },
+              "recipientBank_id": "623fd4c6060a3208d98e3a4c",
+              "recipientAccount": {
+                "number": "86701235",
+                "name": "Doe"
+              },
+              "netInterestReceived": 1290984,
+            }
+          ],
+          "pagination": {
+            "page": 1,
+            "pageSize": 1,
+            "pageCount": 1,
+            "totalDocument": 2
+          }
+        }
+      ```
+    </CodeGroup>
+  </Col>
+</Row>
+
+---
+
+## Value information {{ tag: 'GET', label: '/v1/deposits/value' }}
+
+<Row>
+  <Col>
+    This endpoint allows you to retrieve a paginated list of all your deposit.
+
+    # Request
+
+    ### Optional query
+
+    <Properties>
+      <Property name="placement_date_from" type="string">
+        Filter data by placement date.
+      </Property>
+      <Property name="placement_date_to" type="string">
+        Filter data by placement date.
+      </Property>
+      <Property name="placement_date_from" type="string">
+        Filter data by due date.
+      </Property>
+      <Property name="placement_date_to" type="string">
+        Filter data by due date.
+      </Property>
+      <Property name="placement_type" type="string">
+        Filter data by placement type.
+      </Property>
+      <Property name="source_of_fund" type="string">
+        Filter data by source of fund.
+      </Property>
+      <Property name="owner_id" type="string">
+        Filter data by owner.
+      </Property>
+    </Properties>
+  </Col>
+
+  <Col sticky>
+    <CodeGroup title="Request" tag="GET" label="/v1/deposits/value">
+      ```typescript {{ title: 'axios' }}
+      const response = axios.get('/v1/deposits/value', {
+        "params": {}
+      })
+      ```
+    </CodeGroup>
+    <CodeGroup title="Response">
+      ```json {{ title: '200' }}
+        {
+          "total_placement": 0,
+          "total_gross_interest": 0,
+          "total_tax": 0,
+          "total_net_interest": 0,
+          "total_placement_withdrawn": 0,
+          "total_active_placements": 0,
+          "total_pph_paid": 0,
+          "total_net_interest_received": 0,
+        }
+      ```
+    </CodeGroup>
+  </Col>
+</Row>
